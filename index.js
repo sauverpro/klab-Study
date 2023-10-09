@@ -1,0 +1,19 @@
+const express = require('express')
+const app = express()
+const bodyParser = require("body-parser")
+app.use(bodyParser.json());
+const port = 8080
+const addNews = require("./src/routes/newsletter.routes")
+const viewNew = require("./src/routes/viewNews.routes")
+const getNewsById = require("./src/routes/getNewsById.routes")
+const update = require("./src/routes/update.routes")
+const logger = require("./src/middleware/logger.middlewares")
+const deleteNews = require("./src/routes/deleteNews.routes")
+app.use('/addNews',logger,addNews)
+app.use('/',viewNew)
+app.use('/id',getNewsById)
+app.use('/update',update);
+
+app.use('/delete',deleteNews);
+
+app.listen(port, () => console.log(`Example app listening on port http://localhost:${port}`))
