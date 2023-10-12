@@ -1,17 +1,13 @@
-const database = require("../utils/mockaData")
-const update = (req, res) => {
+import { newsLetterModel } from "../models";
+export const update = async(req, res) => {
     try {
         const updateId = req.params.paramid;
         const newData = req.body;
-        const user = database.find(user => user.id === parseInt(updateId));
-        
+        const user = await newsLetterModel.findByIdAndUpdate(updateId,newData)
         if (user) {
-            if (newData.title) user.title = newData.title;
-            if (newData.body) user.body = newData.body;
-            
             res.status(200).json({
                 status: 200,
-                newData: database
+                message: "updated well"
             });
         } else {
             res.status(404).json({
@@ -27,4 +23,3 @@ const update = (req, res) => {
         });
     }
 }
-module.exports = update
