@@ -1,19 +1,20 @@
 const express = require('express')
 const app = express()
 const bodyParser = require("body-parser")
-app.use(bodyParser.json());
-const port = 8080
-const addNews = require("./src/routes/newsletter.routes")
-const viewNew = require("./src/routes/viewNews.routes")
-const getNewsById = require("./src/routes/getNewsById.routes")
-const update = require("./src/routes/update.routes")
-const logger = require("./src/middleware/logger.middlewares")
-const deleteNews = require("./src/routes/deleteNews.routes")
-app.use('/addNews',logger,addNews)
-app.use('/',viewNew)
-app.use('/id',getNewsById)
-app.use('/update',update);
+import mongoose from 'mongoose';
+require("dotenv").config();
 
-app.use('/delete',deleteNews);
+app.use(bodyParser.json());
+const port= process.env.PORT || 8000
+import mainRouter from './src/routes';
+
+const logger = require("./src/middleware/logger.middlewares")
+app.use('/',logger)
+app.use('/api/v1',mainRouter)
+
+  mongoose.connect(process.env.ANOTHER_DB).then((res)=>{
+    console.log("database connected");
+  })
+
 
 app.listen(port, () => console.log(`Example app listening on port http://localhost:${port}`))
