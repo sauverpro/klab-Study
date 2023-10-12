@@ -1,22 +1,21 @@
-let database = require("../utils/mockaData");
-
-const deleteNews = (req, res) => {
+// let database = require("../utils/mockaData");
+// import { database } from "../utils/mockaData";
+import { newsLetterModel } from "../models";
+export const deleteNews = async(req, res) => {
     try {
         const id = req.params.id;
         console.log(id);
 
         // Use filter() to remove item with the specified ID from the database array
-        const updatedDatabase = database.filter((user) => user.id === parseInt(id));
+        let data = await newsLetterModel.findByIdAndDelete({ _id: id });
+       
+            if (data) {
+                res.status(200).json({message:'Document deleted successfully:', data : data})
+                console.log('Document deleted successfully:', data);
+              } else {
+                console.log('Document not found.');
+              }
 
-        if (updatedDatabase.length !== -1) {
-            // Item was removed, send success response
-            database.splice(updatedDatabase,1)
-            
-            res.status(200).json({ status: 200, message: "Deleted successfully", data: database });
-        } else {
-            // Item with specified ID was not found, send failure response
-            res.status(404).json({ status: 404, message: "Item not found", data: database });
-        }
     } catch (error) {
         console.error(error);
         // Internal server error, send error response
@@ -24,4 +23,3 @@ const deleteNews = (req, res) => {
     }
 };
 
-module.exports = deleteNews;
