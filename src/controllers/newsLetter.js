@@ -1,16 +1,11 @@
-const database = require("../utils/mockaData")
-const addNews = (req, res) => {
+import { newsLetterModel } from "../models";
+export const addNews = async(req, res) => {
     try {
-        let users = req.body;
-        console.log(users);
-        database.push(users);
+        await newsLetterModel.create(req.body)
         res.status(201).json({
-            message: "user created",
-            data: database
+            message: "user created"
         });
     } catch (error) {
         console.log(error);
     }
 }
-
-module.exports = addNews;
