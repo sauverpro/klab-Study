@@ -1,13 +1,10 @@
-const database = require("../utils/mockaData")
- const user= (req, res) => {
+import { newsLetterModel } from "../models";
+ export const user = async(req, res) => {
     try {
-        let {paramid} = req.params;
-        console.log(req.params);
-        console.log(database);
-        data = database.find((user) => {
-            return user.id == parseInt(paramid) 
-        })
-        console.log(data);
+        console.log(`data is here`);
+        console.log(req.params.paramid);
+        let data = await newsLetterModel.findById(req.params.paramid)
+        
         res.status(200).json({
             message: "News has found",
             data: data
@@ -15,6 +12,4 @@ const database = require("../utils/mockaData")
     } catch (error) {
         console.log(error);
     }
-
 }
-module.exports = user
