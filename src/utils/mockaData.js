@@ -1,1 +1,1 @@
-module.exports =  mocha = [];
+export const database = [];
